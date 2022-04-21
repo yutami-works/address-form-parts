@@ -26,8 +26,11 @@
     const response = await fetch(url);
     const data = await response.json();
     const address = data['results'][0]['address1'] + data['results'][0]['address2'] + data['results'][0]['address3']
-    console.log(address);
-    document.getElementById( "addressForm" ).value = address;
+    if(!address) {
+      document.getElementById( "check" ).innerHTML = '該当データなし';
+    } else {
+      document.getElementById( "addressForm" ).value = address;
+    }
   }
 
   function inputCheck() {
