@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郵便番号フォーム - Webパーツ</title>
+</head>
+<body>
+
+<h3>郵便番号で住所が自動入力されるフォーム</h3>
+<p>郵便番号で探す</p>
+<div>
+  <input type="text" id="searchBox" placeholder="例:1638001(ﾊｲﾌﾝなし)" onkeyup="inputCheck ()">
+  <button type="button" onclick="searchAddress ()">探す</button>
+</div>
+<div id="check" ></div>
+<p>住所：<input type="text" id="addressForm"></p>
+<p>番地：<input type="text"></p>
+<button type="button" onclick="dummyPost ()">送信</button>
+
+<script>
+  async function searchAddress () {
+    const postalCode = document.getElementById("searchBox").value;
+    const url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + postalCode;
+    const response = await fetch(url);
+    const data = await response.json();
+    const address = data['results'][0]['address1'] + data['results'][0]['address2'] + data['results'][0]['address3']
+    console.log(address);
+    document.getElementById( "addressForm" ).value = address;
+  }
+
+  function inputCheck() {
+    const inputValue = document.getElementById( "searchBox" ).value;
+    if (!(inputValue.match(/^[0-9]+$/)) || !(inputValue.length === 7)) {
+      document.getElementById( "check" ).innerHTML = '半角数字7桁で入力してください！';
+    } else {
+      document.getElementById( "check" ).innerHTML = '';
+    }
+  }
+
+  function dummyPost () {
+    alert('送信はしないぜ')
+  }
+</script>
+
+</body>
+</html>
