@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郵便番号フォーム - Webパーツ</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>郵便番号フォーム - Webパーツ</title>
 </head>
 <body>
 
@@ -25,10 +25,10 @@
     const url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + postalCode;
     const response = await fetch(url);
     const data = await response.json();
-    const address = data['results'][0]['address1'] + data['results'][0]['address2'] + data['results'][0]['address3']
-    if(!address) {
+    if(!(data['results'])) {
       document.getElementById( "check" ).innerHTML = '該当データなし';
     } else {
+      const address = data['results'][0]['address1'] + data['results'][0]['address2'] + data['results'][0]['address3']
       document.getElementById( "addressForm" ).value = address;
     }
   }
@@ -46,6 +46,5 @@
     alert('送信はしないぜ')
   }
 </script>
-
 </body>
 </html>
