@@ -4,10 +4,65 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webパーツ</title>
+  <title>郵便番号フォーム - Webパーツ</title>
 </head>
 <body>
-  <h1>webパーツ</h1>
-  <p>コピペで使えるパーツをためていこうと思います。</p>
+  <h3>よくある郵便番号から住所を自動入力するフォーム</h3>
+  <p>郵便番号で探す</p>
+  <form>
+    <div>
+      <input type="text" id="searchBox" placeholder="例:1638001(ﾊｲﾌﾝなし)" onkeyup="inputCheck ()">
+      <button type="button" onclick="searchAddress ()">探す</button>
+    </div>
+    <div id="check" ></div>
+    <div>
+      <label>
+        住所：
+        <input type="text" id="addressForm"></p>
+      </label>
+      <label>
+        番地：
+        <input type="text"></p>
+      </label>
+      <button type="button" onclick="dummyPost ()">送信</button>
+    </div>
+  </form>
+
+  <script>
+    async function searchAddress () {
+      // searchBoxに入力された値を取得
+      const zipCode = document.getElementById("searchBox").value;
+      // 取得した値でデータベース照会用のURLを作成
+      const url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + zipCode;
+      // 作成したURLで日本郵便のデータベースを照会（郵便番号検索APIを叩く）
+      const response = await fetch(url);
+      // 返ってきた値を配列データとして取得
+      const data = await response.json();
+
+      // 住所表示
+      // データが取得できない時はフォームを空にする、それ以外は正常表示
+      if (!(data['results'])) {
+        document.getElementById( "check" ).innerHTML = '該当データなし';
+        document.getElementById( "addressForm" ).value = '';
+      } else {
+        const address = data['results'][0]['address1'] + data['results'][0]['address2'] + data['results'][0]['address3']
+        document.getElementById( "addressForm" ).value = address;
+      }
+    }
+
+    function inputCheck() {
+      const inputValue = document.getElementById( "searchBox" ).value;
+      if (!(inputValue.match(/^[0-9]+$/)) || !(inputValue.length === 7)) {
+        document.getElementById( "check" ).innerHTML = '半角数字7桁で入力してください！';
+      } else if (inputValue.length = 7) {
+        console.log(inputValue.length);
+        document.getElementById( "check" ).innerHTML = '';
+      }
+    }
+
+    function dummyPost () {
+      alert('送信はしないぜ')
+    }
+  </script>
 </body>
 </html>

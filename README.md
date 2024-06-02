@@ -1,10 +1,6 @@
-# wedParts
+# address-form-parts
 
-## 郵便番号検索
+よくある郵便番号から住所を自動入力するフォーム
 
-郵便番号検索API<br>
+## 郵便番号検索API
 http://zipcloud.ibsnet.co.jp/doc/api
-
-## スタンプ加工
-
-週間アスキーNo.1395 JavaScriptのお部屋 第281回
